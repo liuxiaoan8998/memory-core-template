@@ -60,19 +60,10 @@ jobs:
         echo "Running integration tests..."
         # TODO: 实现测试脚本
 
-  release:
-    needs: [validate, test]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
+  # Release job removed - create releases manually via GitHub UI
+  # To create a release:
+  # 1. Go to https://github.com/liuxiaoan8998/memory-core-template/releases
+  # 2. Click "Draft a new release"
+  # 3. Create a tag (e.g., v1.0.0)
+  # 4. Fill in release notes
+  # 5. Publish release
