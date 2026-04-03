@@ -68,6 +68,10 @@ cp -r memory memory.backup.$(date +%Y%m%d) 2>/dev/null || echo "memory/ not exis
 ```bash
 # 创建目录（如果不存在）
 mkdir -p ~/.openclaw/workspace/memory/{lessons,decisions,projects,preferences,reflections}
+
+# 验证目录创建成功
+ls -la ~/.openclaw/workspace/memory/
+# 应该看到：lessons, decisions, projects, preferences, reflections, NOW.md, INDEX.md
 ```
 
 #### 步骤 3: 合并 MEMORY.md（手动）
@@ -332,16 +336,45 @@ cron:
 
 集成完成后，验证以下项目：
 
+### 文件结构检查
 - [ ] `memory/` 目录已创建
+- [ ] `memory/lessons/` 目录存在
+- [ ] `memory/decisions/` 目录存在
+- [ ] `memory/projects/` 目录存在
+- [ ] `memory/preferences/` 目录存在
+- [ ] `memory/reflections/` 目录存在
 - [ ] `memory/NOW.md` 存在
 - [ ] `memory/INDEX.md` 存在
 - [ ] `MEMORY.md` 已更新（包含 Memory Core 配置）
 - [ ] `AGENTS.md` 已更新（包含路由规则，且与现有流程兼容）
 - [ ] `HEARTBEAT.md` 存在
 - [ ] 原有文件已备份
+
+### 功能测试
 - [ ] 测试"记住这个"触发词
 - [ ] 测试会话启动流程（检查是否有错误）
 - [ ] 验证现有功能未受影响
+
+### 运行验证脚本（推荐）
+```bash
+cd ~/.openclaw/workspace
+
+# 验证目录结构
+./scripts/verify-memory-structure.sh
+
+# 预期输出：
+# ✅ memory/ 目录存在
+# ✅ lessons/ 目录存在
+# ✅ decisions/ 目录存在
+# ✅ projects/ 目录存在
+# ✅ preferences/ 目录存在
+# ✅ reflections/ 目录存在
+# ✅ NOW.md 存在
+# ✅ INDEX.md 存在
+# ✅ MEMORY.md 已更新
+# ✅ AGENTS.md 已更新
+# ✅ HEARTBEAT.md 存在
+```
 
 ## 故障排查
 
