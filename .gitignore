@@ -1,0 +1,39 @@
+# Memory Core Git Ignore
+
+# Backups
+*.backup.*
+*.bak
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test outputs
+test-output/
+test-workspace/
+
+# Export outputs
+memory-core-export/
+backup/
+
+# Logs
+*.log
+logs/
+
+# Sensitive information (never commit)
+*.token
+*.key
+*.secret
+config.local.yaml

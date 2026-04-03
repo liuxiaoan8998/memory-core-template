@@ -7,6 +7,8 @@
 
 ## 快速开始
 
+**5分钟快速上手**: 参见 [QUICKSTART.md](QUICKSTART.md)
+
 ```bash
 # 1. 克隆模板
 git clone https://github.com/yourusername/memory-core-template.git
@@ -52,10 +54,24 @@ memory-core/
 
 ## 文档导航
 
-- [SETUP.md](SETUP.md) - 安装和配置指南
+### 入门
+- [QUICKSTART.md](QUICKSTART.md) - 5分钟快速开始 ⭐
+- [SETUP.md](SETUP.md) - 详细安装和配置指南
+
+### 核心文档
 - [ARCHITECTURE.md](ARCHITECTURE.md) - 系统架构详解
 - [USAGE.md](USAGE.md) - 使用手册
+- [SCRIPTS.md](SCRIPTS.md) - 脚本说明
+
+### 测试与验证
 - [TEST.md](TEST.md) - 测试用例和验证指南
+
+### 贡献与维护
+- [CONTRIBUTING.md](CONTRIBUTING.md) - 贡献指南
+- [CHANGELOG.md](CHANGELOG.md) - 版本变更记录
+- [SECURITY.md](SECURITY.md) - 安全策略
+
+### 其他
 - [CUSTOMIZATION.md](CUSTOMIZATION.md) - 自定义指南（可选）
 - [FAQ.md](FAQ.md) - 常见问题（可选）
 
