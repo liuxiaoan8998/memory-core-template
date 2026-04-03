@@ -7,6 +7,32 @@
 - OpenClaw 已安装并运行
 - 已有 Agent workspace（包含 MEMORY.md、AGENTS.md 等）
 - 支持文件系统访问的 Agent 环境
+- ⚠️ **重要**: 升级前请确保理解现有 Agent 的启动流程，避免冲突
+
+## 升级前检查
+
+在升级前，先检查现有 Agent 的配置：
+
+```bash
+cd ~/.openclaw/workspace
+
+# 1. 检查 AGENTS.md 的 Session Startup 流程
+grep -A 10 "Session Startup" AGENTS.md
+
+# 2. 检查 MEMORY.md 的结构
+cat MEMORY.md | head -30
+
+# 3. 检查是否有现有的 memory/ 目录
+ls -la memory/ 2>/dev/null || echo "memory/ not exists"
+
+# 4. 检查是否有 HEARTBEAT.md
+ls HEARTBEAT.md 2>/dev/null || echo "HEARTBEAT.md not exists"
+```
+
+**根据检查结果，选择升级路径**：
+- **路径 A**: 如果 AGENTS.md 已有类似的记忆机制 → 参考"冲突解决指南"
+- **路径 B**: 如果 AGENTS.md 没有记忆机制 → 参考"标准升级流程"
+- **路径 C**: 如果不确定 → 先备份，然后尝试路径 B
 
 ## 安装方式
 
@@ -249,6 +275,59 @@ cron:
         If nothing needs attention, reply HEARTBEAT_OK.
 ```
 
+## 冲突解决指南
+
+如果现有 Agent 已有类似的记忆机制，需要手动解决冲突：
+
+### 冲突1: AGENTS.md Session Startup 流程不同
+
+**症状**: 现有 Agent 有不同的启动流程
+
+**解决**:
+1. 不要直接覆盖 AGENTS.md
+2. 在现有启动流程中插入 Memory Core 步骤：
+   ```markdown
+   ## Session Startup
+   
+   1. Read `SOUL.md` — this is who you are
+   2. Read `USER.md` — this is who you're helping
+   3. Read `memory/YYYY-MM-DD.md` (today + yesterday) ← 添加
+   4. **If in MAIN SESSION**: Read `MEMORY.md` ← 确保包含
+   5. Read `memory/NOW.md` ← 添加
+   6. Read `memory/INDEX.md` ← 添加
+   ```
+
+### 冲突2: MEMORY.md 已有"当前优先级"部分
+
+**症状**: MEMORY.md 已有类似内容，直接合并会重复
+
+**解决**:
+1. 检查现有内容：
+   ```bash
+   grep -n "当前优先级\|待办\|TODO" MEMORY.md
+   ```
+2. 如果存在，修改为指向 `memory/NOW.md`：
+   ```markdown
+   ## 当前优先级
+   
+   - 查看 `memory/NOW.md` 获取近期待办 ← 统一指向 NOW.md
+   ```
+
+### 冲突3: 已有 memory/ 目录但结构不同
+
+**症状**: 已有 memory/ 目录，但子目录结构不同
+
+**解决**:
+1. 列出现有结构：
+   ```bash
+   find memory/ -type d
+   ```
+2. 保留现有目录，添加缺失的：
+   ```bash
+   mkdir -p memory/{lessons,decisions,projects,preferences,reflections}
+   ```
+3. 如果已有 lessons/ 等目录，可能需要迁移内容
+
 ## 迁移检查清单
 
 集成完成后，验证以下项目：
@@ -257,10 +336,12 @@ cron:
 - [ ] `memory/NOW.md` 存在
 - [ ] `memory/INDEX.md` 存在
 - [ ] `MEMORY.md` 已更新（包含 Memory Core 配置）
-- [ ] `AGENTS.md` 已更新（包含路由规则）
+- [ ] `AGENTS.md` 已更新（包含路由规则，且与现有流程兼容）
 - [ ] `HEARTBEAT.md` 存在
 - [ ] 原有文件已备份
 - [ ] 测试"记住这个"触发词
+- [ ] 测试会话启动流程（检查是否有错误）
+- [ ] 验证现有功能未受影响
 
 ## 故障排查
 
