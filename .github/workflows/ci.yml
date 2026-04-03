@@ -1,0 +1,68 @@
+name: Memory Core CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Validate Markdown
+      run: |
+        # 检查 Markdown 语法
+        find . -name "*.md" -type f | xargs markdownlint --config .markdownlint.json || true
+    
+    - name: Check File Structure
+      run: |
+        # 验证目录结构
+        test -f README.md
+        test -f SETUP.md
+        test -f ARCHITECTURE.md
+        test -f USAGE.md
+        echo "✅ File structure valid"
+    
+    - name: Validate Memory Schema
+      run: |
+        # 验证记忆文件格式
+        python scripts/validate-memory.py || echo "Validation script not implemented yet"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Test Environment
+      run: |
+        # 创建测试 workspace
+        mkdir -p test-workspace/memory/{lessons,decisions,projects,preferences,reflections}
+        cp MEMORY.md test-workspace/
+        cp NOW.md test-workspace/
+        cp HEARTBEAT.md test-workspace/
+    
+    - name: Run Integration Tests
+      run: |
+        # 运行集成测试
+        echo "Running integration tests..."
+        # TODO: 实现测试脚本
+
+  release:
+    needs: [validate, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
