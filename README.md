@@ -11,11 +11,12 @@
 # 1. 克隆模板
 git clone https://github.com/yourusername/memory-core-template.git
 
-# 2. 复制到你的 Agent workspace
-cp -r memory-core-template/* ~/.openclaw/workspace/
+# 2. 按照 SETUP.md 完成配置（重要：不要直接覆盖！）
+# 详细步骤见 SETUP.md
 
-# 3. 启动记忆系统
-# 按照 SETUP.md 完成配置
+# 3. 运行测试验证安装
+./scripts/verify-memory-structure.sh
+./scripts/run-tests.sh
 ```
 
 ## 核心特性
@@ -54,8 +55,9 @@ memory-core/
 - [SETUP.md](SETUP.md) - 安装和配置指南
 - [ARCHITECTURE.md](ARCHITECTURE.md) - 系统架构详解
 - [USAGE.md](USAGE.md) - 使用手册
-- [CUSTOMIZATION.md](CUSTOMIZATION.md) - 自定义指南
-- [FAQ.md](FAQ.md) - 常见问题
+- [TEST.md](TEST.md) - 测试用例和验证指南
+- [CUSTOMIZATION.md](CUSTOMIZATION.md) - 自定义指南（可选）
+- [FAQ.md](FAQ.md) - 常见问题（可选）
 
 ## 适用场景
 
