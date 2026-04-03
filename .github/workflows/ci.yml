@@ -14,8 +14,12 @@ jobs:
     
     - name: Validate Markdown
       run: |
-        # 检查 Markdown 语法
-        find . -name "*.md" -type f | xargs markdownlint --config .markdownlint.json || true
+        # 检查 Markdown 语法（如果有 markdownlint）
+        if command -v markdownlint &> /dev/null; then
+          find . -name "*.md" -type f | xargs markdownlint || true
+        else
+          echo "markdownlint not installed, skipping..."
+        fi
     
     - name: Check File Structure
       run: |
@@ -28,8 +32,12 @@ jobs:
     
     - name: Validate Memory Schema
       run: |
-        # 验证记忆文件格式
-        python scripts/validate-memory.py || echo "Validation script not implemented yet"
+        # 验证记忆文件格式（如果脚本存在）
+        if [ -f scripts/validate-memory.py ]; then
+          python scripts/validate-memory.py
+        else
+          echo "Validation script not implemented yet, skipping..."
+        fi
 
   test:
     runs-on: ubuntu-latest
@@ -41,8 +49,10 @@ jobs:
         # 创建测试 workspace
         mkdir -p test-workspace/memory/{lessons,decisions,projects,preferences,reflections}
         cp MEMORY.md test-workspace/
-        cp NOW.md test-workspace/
         cp HEARTBEAT.md test-workspace/
+        cp AGENTS.md test-workspace/
+        cp memory/NOW.md test-workspace/memory/
+        cp memory/INDEX.md test-workspace/memory/
     
     - name: Run Integration Tests
       run: |
